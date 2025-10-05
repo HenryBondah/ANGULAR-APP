@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+.pad-left-right {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.margin-right-sm {
+  margin-right: 1rem;
+}
+
+.center-panel {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}

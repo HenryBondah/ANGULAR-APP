@@ -18,6 +18,10 @@ export class MessageEdit {
     const subjectValue = this.subjectInputRef?.nativeElement.value;
     const msgTextValue = this.msgTextInputRef?.nativeElement.value;
     
+    if (!subjectValue || !msgTextValue) {
+      return; // Don't send empty messages
+    }
+    
     const newMessage = new Message(
       Math.random().toString(),
       subjectValue,

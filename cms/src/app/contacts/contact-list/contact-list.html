@@ -8,12 +8,12 @@
   <div class="panel-body">
     <div class="center-panel">
       <div *ngFor="let contact of contacts">
-        <a href="#" class="list-group-item clearfix">
+        <a href="#" class="list-group-item clearfix" (click)="onSelectedContact(contact)">
           <div class="pull-left">
             <h4 class="list-group-item-heading">{{ contact.name }}</h4>
           </div>
           <span class="pull-right">
-            <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-circle" style="height: 70px; width: 80px;">
+            <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-circle" style="height: 70px; width: 70px;">
           </span>
         </a>
       </div>

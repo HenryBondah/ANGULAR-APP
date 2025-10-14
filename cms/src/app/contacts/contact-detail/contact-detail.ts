@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Contact } from '../contact.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { Contact } from '../contact.model';
   styleUrl: './contact-detail.css'
 })
 export class ContactDetail {
-  contact: Contact | null = new Contact(
+  @Input() contact: Contact | null = new Contact(
     "1",
     "R. Kent Jackson",
     "jacksonk@byui.edu",

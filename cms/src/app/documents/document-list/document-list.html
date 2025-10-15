@@ -7,13 +7,11 @@
   </div>
   <div class="panel-body">
     <div class="center-panel">
-      <div *ngFor="let document of documents">
-        <a href="#" class="list-group-item clearfix" (click)="onSelectedDocument(document)">
-          <div class="pull-left">
-            <h4 class="list-group-item-heading">{{ document.name }}</h4>
-          </div>
-        </a>
-      </div>
+      <cms-document-item
+        *ngFor="let document of documents"
+        [document]="document"
+        (selectDocument)="onSelectedDocument($event)">
+      </cms-document-item>
     </div>
   </div>
 </div>

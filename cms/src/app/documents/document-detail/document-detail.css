@@ -1,1 +1,37 @@
-/* Document Detail component styles */
+/* Document Detail specific styles */
+
+.panel-heading .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.panel-heading .title {
+  flex: 1;
+  min-width: 0;
+  word-wrap: break-word;
+}
+
+.panel-body .label-value {
+  display: block;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.panel-body .label-value a {
+  color: #337ab7;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.panel-body .label-value a:hover {
+  text-decoration: underline;
+}
+
+.panel-body label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 0.25rem;
+}

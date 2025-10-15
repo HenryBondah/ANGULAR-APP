@@ -1,1 +1,16 @@
-/* Document List component styles */
+/* Document List specific styles */
+
+.center-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+  .center-panel {
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  }
+}

@@ -1,1 +1,69 @@
-/* Header component styles */
+/* Header/Navigation styles */
+
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-default {
+  background-color: transparent;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.navbar-brand:hover {
+  color: #f0f0f0 !important;
+}
+
+.navbar-nav > li > a {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 1rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.navbar-nav > li > a:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar-right {
+  float: right;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    margin: 0;
+  }
+  
+  .navbar-nav > li > a {
+    padding: 0.75rem 1rem;
+  }
+}
+

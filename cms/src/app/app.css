@@ -1,4 +1,16 @@
 /* App component styles */
+
 .container-fluid {
-  padding: 20px;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 1rem;
+  }
+}
+

@@ -1,20 +1,271 @@
-/* You can add global styles to this file, and also import other style files */
+/* ========================================
+   GLOBAL STYLES - WeLumCMS
+   Consistent styling across all pages
+   ======================================== */
 
+/* === CSS VARIABLES === */
+:root {
+  --primary-color: #5cb85c;
+  --info-color: #5bc0de;
+  --danger-color: #d9534f;
+  --primary-text: #333;
+  --secondary-text: #666;
+  --border-color: #ddd;
+  --panel-bg: #fff;
+  --hover-bg: #f5f5f5;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --border-radius: 4px;
+  --box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+/* === SPACING UTILITIES === */
 .pad-left-right {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+.pad-all {
+  padding: var(--spacing-md);
 }
 
 .margin-right-sm {
-  margin-right: 1rem;
+  margin-right: var(--spacing-md);
+}
+
+.margin-left-right {
+  margin-left: var(--spacing-md);
+  margin-right: var(--spacing-md);
+}
+
+/* === LAYOUT === */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.col-md-4,
+.col-md-5 {
+  flex: 1;
+  min-width: 300px;
+}
+
+.col-md-5 {
+  flex: 1.25;
 }
 
 .center-panel {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  padding: var(--spacing-md);
 }
 
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* === PANELS === */
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--spacing-lg);
+}
+
+.panel-default {
+  border-color: var(--border-color);
+}
+
+.panel-heading {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.panel-body {
+  padding: var(--spacing-lg);
+}
+
+/* === TYPOGRAPHY === */
 .title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
+  color: var(--primary-text);
+  margin: 0;
+}
+
+h4.title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.label-value {
+  color: var(--secondary-text);
+  margin-left: var(--spacing-sm);
+}
+
+/* === BUTTONS === */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0 var(--spacing-xs);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--box-shadow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: #337ab7;
+  color: white;
+  border-color: #2e6da4;
+}
+
+.btn-success {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: #4cae4c;
+}
+
+.btn-info {
+  background-color: var(--info-color);
+  color: white;
+  border-color: #46b8da;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: #d43f3a;
+}
+
+/* === LIST GROUPS === */
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: -1px;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  text-decoration: none;
+  color: var(--primary-text);
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.list-group-item:last-child {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.list-group-item:hover {
+  background-color: var(--hover-bg);
+  cursor: pointer;
+}
+
+.list-group-item-heading {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* === FORMS === */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--primary-text);
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--primary-text);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .col-md-4,
+  .col-md-5 {
+    min-width: 100%;
+  }
+  
+  .pull-right,
+  .pull-left {
+    float: none;
+    margin-top: var(--spacing-sm);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
 }

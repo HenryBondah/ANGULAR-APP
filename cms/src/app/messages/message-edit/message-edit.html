@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-sm-12 form-group">
           <label for="recipient">Recipient:</label>
-          <select id="recipient" class="form-control" [(ngModel)]="currentSender">
+          <select id="recipient" name="recipient" class="form-control" [(ngModel)]="currentSender">
+            <option value="">-- Select recipient --</option>
             <option *ngFor="let c of contacts" [value]="c.id">{{ c.name }}</option>
           </select>
         </div>

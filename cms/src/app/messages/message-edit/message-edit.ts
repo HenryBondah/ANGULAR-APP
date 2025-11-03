@@ -19,6 +19,14 @@ export class MessageEdit implements OnInit {
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
+    // subscribe so the dropdown updates when contacts change elsewhere
+    this.contactService.contactsChanged.subscribe((contacts: Contact[]) => {
+      this.contacts = contacts;
+      if (!this.currentSender && contacts.length > 0) {
+        this.currentSender = contacts[0].id;
+      }
+    });
+
     if (this.contacts.length > 0) {
       this.currentSender = this.contacts[0].id;
     }

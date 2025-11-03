@@ -1,18 +1,28 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
+import { ContactService } from '../../contacts/contact.service';
+import { Contact } from '../../contacts/contact.model';
 @Component({
   selector: 'cms-message-edit',
   standalone: false,
   templateUrl: './message-edit.html',
   styleUrl: './message-edit.css'
 })
-export class MessageEdit {
+export class MessageEdit implements OnInit {
   @ViewChild('subject', { static: false }) subjectInputRef: ElementRef | undefined;
   @ViewChild('msgText', { static: false }) msgTextInputRef: ElementRef | undefined;
-  currentSender: string = '7';
+  currentSender: string = '';
+  contacts: Contact[] = [];
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private contactService: ContactService) {}
+
+  ngOnInit(): void {
+    this.contacts = this.contactService.getContacts();
+    if (this.contacts.length > 0) {
+      this.currentSender = this.contacts[0].id;
+    }
+  }
 
   onSendMessage() {
     const subjectValue = this.subjectInputRef?.nativeElement.value;

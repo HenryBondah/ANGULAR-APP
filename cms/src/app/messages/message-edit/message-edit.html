@@ -3,6 +3,12 @@
     <form id="document-edit">
       <div class="row">
         <div class="col-sm-12 form-group">
+          <label for="recipient">Recipient:</label>
+          <select id="recipient" class="form-control" [(ngModel)]="currentSender">
+            <option *ngFor="let c of contacts" [value]="c.id">{{ c.name }}</option>
+          </select>
+        </div>
+        <div class="col-sm-12 form-group">
           <label for="subject">Subject:</label>
           <input
             type="text"

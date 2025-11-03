@@ -15,9 +15,20 @@ export class DocumentList implements OnInit {
 
   ngOnInit(): void {
     this.documents = this.documentService.getDocuments();
+    this.documentService.documentsChanged.subscribe((docs: Document[]) => {
+      this.documents = docs;
+    });
   }
 
   onSelectedDocument(document: Document) {
     this.documentService.documentSelectedEvent.emit(document);
+  }
+
+  onAddDocument() {
+    const id = Date.now().toString();
+    const newDoc = new Document(id, 'New Document', 'Enter description...', '#');
+    this.documentService.addDocument(newDoc);
+    // select the newly added doc
+    this.documentService.documentSelectedEvent.emit(newDoc);
   }
 }

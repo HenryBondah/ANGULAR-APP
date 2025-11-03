@@ -15,9 +15,19 @@ export class ContactList implements OnInit {
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
+    this.contactService.contactsChanged.subscribe((contacts: Contact[]) => {
+      this.contacts = contacts;
+    });
   }
 
   onSelectedContact(contact: Contact) {
     this.contactService.contactSelectedEvent.emit(contact);
+  }
+
+  onAddContact() {
+    const id = Date.now().toString();
+    const newContact = new Contact(id, 'New Contact', 'you@example.com', '', 'assets/images/default.png', null);
+    this.contactService.addContact(newContact);
+    this.contactService.contactSelectedEvent.emit(newContact);
   }
 }

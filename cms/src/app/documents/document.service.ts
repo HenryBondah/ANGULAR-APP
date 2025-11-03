@@ -11,6 +11,7 @@ export class DocumentService {
   ];
 
   documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
+  documentsChanged: EventEmitter<Document[]> = new EventEmitter<Document[]>();
 
   getDocuments(): Document[] {
     return this.documents.slice();
@@ -23,6 +24,29 @@ export class DocumentService {
       }
     }
     return null;
+  }
+
+  addDocument(doc: Document) {
+    this.documents.push(doc);
+    this.documentsChanged.emit(this.getDocuments());
+  }
+
+  updateDocument(updated: Document) {
+    const idx = this.documents.findIndex(d => d.id === updated.id);
+    if (idx > -1) {
+      this.documents[idx] = updated;
+      this.documentsChanged.emit(this.getDocuments());
+      this.documentSelectedEvent.emit(updated);
+    }
+  }
+
+  deleteDocument(id: string) {
+    const idx = this.documents.findIndex(d => d.id === id);
+    if (idx > -1) {
+      this.documents.splice(idx, 1);
+      this.documentsChanged.emit(this.getDocuments());
+      // clear selection by emitting null via a simple pattern: emit nothing
+    }
   }
 }
  

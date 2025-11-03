@@ -11,6 +11,7 @@ export class ContactService {
   ];
 
   contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
+  contactsChanged: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
 
   getContacts(): Contact[] {
     return this.contacts.slice();
@@ -23,5 +24,27 @@ export class ContactService {
       }
     }
     return null;
+  }
+
+  addContact(contact: Contact) {
+    this.contacts.push(contact);
+    this.contactsChanged.emit(this.getContacts());
+  }
+
+  updateContact(updated: Contact) {
+    const idx = this.contacts.findIndex(c => c.id === updated.id);
+    if (idx > -1) {
+      this.contacts[idx] = updated;
+      this.contactsChanged.emit(this.getContacts());
+      this.contactSelectedEvent.emit(updated);
+    }
+  }
+
+  deleteContact(id: string) {
+    const idx = this.contacts.findIndex(c => c.id === id);
+    if (idx > -1) {
+      this.contacts.splice(idx, 1);
+      this.contactsChanged.emit(this.getContacts());
+    }
   }
 }

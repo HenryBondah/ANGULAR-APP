@@ -1,4 +1,5 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 import { ContactService } from '../../contacts/contact.service';
@@ -9,18 +10,19 @@ import { Contact } from '../../contacts/contact.model';
   templateUrl: './message-edit.html',
   styleUrl: './message-edit.css'
 })
-export class MessageEdit implements OnInit {
+export class MessageEdit implements OnInit, OnDestroy {
   @ViewChild('subject', { static: false }) subjectInputRef: ElementRef | undefined;
   @ViewChild('msgText', { static: false }) msgTextInputRef: ElementRef | undefined;
   currentSender: string = '';
   contacts: Contact[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private messageService: MessageService, private contactService: ContactService) {}
 
   ngOnInit(): void {
     this.contacts = this.contactService.getContacts();
-    // subscribe so the dropdown updates when contacts change elsewhere
-    this.contactService.contactsChanged.subscribe((contacts: Contact[]) => {
+    // subscribe to the observable so the dropdown updates when contacts change elsewhere
+    this.subscription = this.contactService.contactListChangedEvent.subscribe((contacts: Contact[]) => {
       this.contacts = contacts;
       if (!this.currentSender && contacts.length > 0) {
         this.currentSender = contacts[0].id;
@@ -30,6 +32,10 @@ export class MessageEdit implements OnInit {
     if (this.contacts.length > 0) {
       this.currentSender = this.contacts[0].id;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSendMessage() {

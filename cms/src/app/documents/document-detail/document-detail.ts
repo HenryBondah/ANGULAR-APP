@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Document } from '../document.model';
 import { DocumentService } from '../document.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'cms-document-detail',
@@ -15,7 +16,20 @@ export class DocumentDetail {
   editDesc: string = '';
   editUrl: string = '';
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    // subscribe to route params if present
+    this.route.params.subscribe((params: Params) => {
+      const id = params['id'];
+      if (id) {
+        const doc = this.documentService.getDocument(id);
+        if (doc) {
+          this.document = doc;
+        }
+      }
+    });
+  }
 
   onView() {
     if (this.document && this.document.url) {
@@ -35,7 +49,8 @@ export class DocumentDetail {
   onSave() {
     if (!this.document) { return; }
     const updated = new Document(this.document.id, this.editName || this.document.name, this.editDesc || this.document.description, this.editUrl || this.document.url);
-    this.documentService.updateDocument(updated);
+    this.documentService.updateDocument(this.document, updated);
+    this.document = updated;
     this.isEditing = false;
   }
 
@@ -45,7 +60,7 @@ export class DocumentDetail {
 
   onDelete() {
     if (!this.document) { return; }
-    this.documentService.deleteDocument(this.document.id);
+    this.documentService.deleteDocument(this.document);
     this.document = null;
   }
 }

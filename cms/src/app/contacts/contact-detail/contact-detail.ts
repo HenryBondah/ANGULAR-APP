@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'cms-contact-detail',
@@ -8,7 +9,7 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-detail.html',
   styleUrl: './contact-detail.css'
 })
-export class ContactDetail {
+export class ContactDetail implements OnInit {
   @Input() contact: Contact | null = new Contact(
     "1",
     "R. Kent Jackson",
@@ -23,7 +24,7 @@ export class ContactDetail {
   editEmail: string = '';
   editPhone: string = '';
 
-  constructor(private contactService: ContactService) {}
+  constructor(private contactService: ContactService, private route: ActivatedRoute) {}
 
   onEdit() {
     if (this.contact) {
@@ -37,7 +38,8 @@ export class ContactDetail {
   onSave() {
     if (!this.contact) { return; }
     const updated = new Contact(this.contact.id, this.editName || this.contact.name, this.editEmail || this.contact.email, this.editPhone || this.contact.phone, this.contact.imageUrl, this.contact.group);
-    this.contactService.updateContact(updated);
+    this.contactService.updateContact(this.contact, updated);
+    this.contact = updated;
     this.isEditing = false;
   }
 
@@ -47,7 +49,18 @@ export class ContactDetail {
 
   onDelete() {
     if (!this.contact) { return; }
-    this.contactService.deleteContact(this.contact.id);
+    this.contactService.deleteContact(this.contact);
     this.contact = null;
+  }
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      const id = params['id'];
+      if (id) {
+        const c = this.contactService.getContact(id);
+        if (c) {
+          this.contact = c;
+        }
+      }
+    });
   }
 }

@@ -2,13 +2,13 @@
   <div class="panel-heading">
     <div class="row pad-left-right">
       <span class="title">Contacts</span>
-  <a class="btn btn-success pull-right" (click)="onAddContact()">New Contact</a>
+  <a class="btn btn-success pull-right" [routerLink]="['/contacts','new']">New Contact</a>
     </div>
   </div>
   <div class="panel-body">
     <div class="center-panel">
       <div *ngFor="let contact of contacts">
-        <a [routerLink]="['/contacts', contact.id]" class="list-group-item clearfix" (click)="onSelectedContact(contact)">
+        <a class="list-group-item clearfix" [routerLink]="['/contacts', contact.id]">
           <div class="pull-left">
             <h4 class="list-group-item-heading">{{ contact.name }}</h4>
           </div>

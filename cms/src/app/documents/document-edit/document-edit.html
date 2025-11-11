@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="title">{{ editMode ? 'Edit Document' : 'Add Document' }}</h4>
+  </div>
+  <div class="panel-body">
+    <form #documentForm="ngForm" (ngSubmit)="onSave()" *ngIf="document">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input 
+          type="text" 
+          id="title" 
+          class="form-control" 
+          name="title"
+          [(ngModel)]="document.name"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea 
+          id="description" 
+          class="form-control" 
+          name="description"
+          rows="4"
+          [(ngModel)]="document.description"
+          required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="url">URL:</label>
+        <input 
+          type="text" 
+          id="url" 
+          class="form-control" 
+          name="url"
+          [(ngModel)]="document.url"
+          required>
+      </div>
+
+      <div class="btn-group">
+        <button 
+          type="submit" 
+          class="btn btn-success"
+          [disabled]="!documentForm.valid">
+          Save
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-default"
+          (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

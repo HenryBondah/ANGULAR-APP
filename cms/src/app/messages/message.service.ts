@@ -1,4 +1,5 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Message } from './message.model';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class MessageService {
     new Message("5", "I can meet with you today at 4:00 PM in my office", "", "Bro. Jackson")
   ];
 
-  messageChangedEvent = new EventEmitter<Message[]>();
+  messageChangedEvent = new Subject<Message[]>();
 
   getMessages(): Message[] {
     return this.messages.slice();
@@ -21,8 +22,8 @@ export class MessageService {
 
   addMessage(message: Message) {
     this.messages.push(message);
-    // emit a copy
-    this.messageChangedEvent.emit(this.messages.slice());
+    // emit a copy using Subject
+    this.messageChangedEvent.next(this.messages.slice());
   }
 }
 

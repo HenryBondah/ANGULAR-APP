@@ -1,5 +1,6 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Contact } from './contact.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,28 @@ export class ContactService {
     new Contact('1', 'R. Kent Jackson', 'jacksonk@byui.edu', '208-496-3771', 'assets/images/jacksonk.jpg', null),
     new Contact('2', 'Rex Barzee', 'barzeer@byui.edu', '208-496-3768', 'assets/images/barzeer.jpg', null)
   ];
+  private maxContactId: number = 2;
 
-  contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
-  contactsChanged: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
+  contactListChangedEvent = new Subject<Contact[]>();
+  contactSelectedEvent = new Subject<Contact>();
+
+  constructor() {
+    this.maxContactId = this.getMaxId();
+  }
 
   getContacts(): Contact[] {
     return this.contacts.slice();
+  }
+
+  getMaxId(): number {
+    let maxId = 0;
+    for (const contact of this.contacts) {
+      const currentId = parseInt(contact.id, 10);
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    }
+    return maxId;
   }
 
   getContact(id: string): Contact | null {
@@ -27,24 +44,40 @@ export class ContactService {
   }
 
   addContact(contact: Contact) {
+    if (!contact) {
+      return;
+    }
+    this.maxContactId++;
+    contact.id = this.maxContactId.toString();
     this.contacts.push(contact);
-    this.contactsChanged.emit(this.getContacts());
+    const contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
   }
 
-  updateContact(updated: Contact) {
-    const idx = this.contacts.findIndex(c => c.id === updated.id);
-    if (idx > -1) {
-      this.contacts[idx] = updated;
-      this.contactsChanged.emit(this.getContacts());
-      this.contactSelectedEvent.emit(updated);
+  updateContact(originalContact: Contact, newContact: Contact) {
+    if (!originalContact || !newContact) {
+      return;
     }
+    const pos = this.contacts.indexOf(originalContact);
+    if (pos < 0) {
+      return;
+    }
+    newContact.id = originalContact.id;
+    this.contacts[pos] = newContact;
+    const contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
   }
 
-  deleteContact(id: string) {
-    const idx = this.contacts.findIndex(c => c.id === id);
-    if (idx > -1) {
-      this.contacts.splice(idx, 1);
-      this.contactsChanged.emit(this.getContacts());
+  deleteContact(contact: Contact) {
+    if (!contact) {
+      return;
     }
+    const pos = this.contacts.indexOf(contact);
+    if (pos < 0) {
+      return;
+    }
+    this.contacts.splice(pos, 1);
+    const contactsListClone = this.contacts.slice();
+    this.contactListChangedEvent.next(contactsListClone);
   }
 }

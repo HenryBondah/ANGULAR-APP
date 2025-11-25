@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
 
@@ -13,6 +14,7 @@ export class ContactEdit implements OnInit {
   originalContact: Contact | null = null;
   contact: Contact | null = null;
   editMode: boolean = false;
+  groupContacts: Contact[] = [];
 
   constructor(
     private contactService: ContactService,
@@ -35,11 +37,21 @@ export class ContactEdit implements OnInit {
       }
       
       this.editMode = true;
-      this.contact = { ...this.originalContact };
+      // Clone the original contact using JSON parse/stringify
+      this.contact = JSON.parse(JSON.stringify(this.originalContact));
+      
+      // If contact has a group, clone the group array
+      if (this.contact && this.contact.group) {
+        this.groupContacts = JSON.parse(JSON.stringify(this.contact.group));
+      }
     });
   }
 
-  onSave() {
+  onSubmit(form: NgForm) {
+    if (!form.valid) {
+      return;
+    }
+    
     if (!this.contact) {
       return;
     }

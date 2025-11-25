@@ -3,7 +3,7 @@
     <h4 class="title">{{ editMode ? 'Edit Contact' : 'Add New Contact' }}</h4>
   </div>
   <div class="panel-body">
-    <form #contactForm="ngForm" (ngSubmit)="onSave()" *ngIf="contact">
+    <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)" *ngIf="contact">
       <div class="form-group">
         <label for="name">Name:</label>
         <input 
@@ -11,6 +11,7 @@
           id="name" 
           class="form-control" 
           name="name"
+          #name="ngModel"
           [(ngModel)]="contact.name"
           required>
       </div>
@@ -22,8 +23,13 @@
           id="email" 
           class="form-control" 
           name="email"
+          #email="ngModel"
           [(ngModel)]="contact.email"
-          required>
+          required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+        <div class="alert alert-danger" *ngIf="email.invalid && email.touched && email.errors?.['pattern']">
+          Please enter a valid email address.
+        </div>
       </div>
 
       <div class="form-group">
@@ -33,18 +39,37 @@
           id="phone" 
           class="form-control" 
           name="phone"
+          #phone="ngModel"
           [(ngModel)]="contact.phone"
-          required>
+          required
+          pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*">
+        <div class="alert alert-danger" *ngIf="phone.invalid && phone.touched && phone.errors?.['pattern']">
+          Please enter a valid phone number.
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="imageUrl">Image URL (optional):</label>
+        <label for="imageUrl">Image URL:</label>
         <input 
           type="text" 
           id="imageUrl" 
           class="form-control" 
           name="imageUrl"
           [(ngModel)]="contact.imageUrl">
+      </div>
+
+      <div class="form-group">
+        <label for="groupContacts">Group contacts:</label>
+        <div class="form-control" style="min-height: 100px; height: auto;">
+          Drag contacts in group here
+        </div>
+      </div>
+
+      <!-- Error message div for required fields -->
+      <div class="alert alert-danger" 
+           *ngIf="(name.invalid && name.touched && name.errors?.['required']) || 
+                  (email.invalid && email.touched && email.errors?.['required'])">
+        The Name and Email fields are required.
       </div>
 
       <div class="btn-group">

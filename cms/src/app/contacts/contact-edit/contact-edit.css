@@ -1,2 +1,19 @@
 /* placeholder styles for contact-edit */
 .panel-body { min-height: 150px; }
+
+/* Validation styles */
+input.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}

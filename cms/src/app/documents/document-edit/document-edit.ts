@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { Document } from '../document.model';
 import { DocumentService } from '../document.service';
 
@@ -35,11 +36,16 @@ export class DocumentEdit implements OnInit {
       }
       
       this.editMode = true;
-      this.document = { ...this.originalDocument };
+      // Clone the original document using JSON parse/stringify
+      this.document = JSON.parse(JSON.stringify(this.originalDocument));
     });
   }
 
-  onSave() {
+  onSubmit(form: NgForm) {
+    if (!form.valid) {
+      return;
+    }
+    
     if (!this.document) {
       return;
     }

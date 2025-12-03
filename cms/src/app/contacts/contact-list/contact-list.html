@@ -1,13 +1,22 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="row pad-left-right">
-      <span class="title">Contacts</span>
-  <a class="btn btn-success pull-right" [routerLink]="['/contacts','new']">New Contact</a>
+    <div class="row">
+      <span class="title pad-left-right">Contacts</span>
+    </div>
+    <div class="row">
+      <div class="input-group pull-left pad-left-right col-xs-7">
+        <!-- Add the search box input text field here-->
+        <div class="glyphicon glyphicon-search input-group-addon" (click)="search(searchBox.value)"></div>
+        <input type="text" #searchBox class="form-control" placeholder="Enter a search value" (keyup)="search(searchBox.value)">
+      </div>
+      <div class="pull-right pad-left-right">
+        <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+      </div>
     </div>
   </div>
   <div class="panel-body">
     <div class="center-panel">
-      <div *ngFor="let contact of contacts">
+      <div *ngFor="let contact of contacts | contactsFilter: term">
         <a class="list-group-item clearfix" [routerLink]="['/contacts', contact.id]">
           <div class="pull-left">
             <h4 class="list-group-item-heading">{{ contact.name }}</h4>

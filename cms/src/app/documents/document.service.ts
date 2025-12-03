@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Document } from './document.model';
 import { Subject } from 'rxjs';
 
@@ -15,8 +16,23 @@ export class DocumentService {
   documentListChangedEvent = new Subject<Document[]>();
   documentSelectedEvent = new Subject<Document>();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.maxDocumentId = this.getMaxId();
+    this.http.get<{ documents: Document[] }>('https://your-firebase-url.firebaseio.com/documents.json')
+      .subscribe(
+        (documents: { documents: Document[] }) => {
+          this.documents = documents.documents;
+          this.maxDocumentId = this.getMaxId();
+          // sort the list of documents
+          this.documents.sort((a, b) => a.name > b.name ? 1 : -1);
+          // emit the next document list change event
+          this.documentListChangedEvent.next(this.documents.slice());
+        },
+        // error method
+        (error: any) => {
+          console.log(error);
+        }
+      );
   }
 
   getDocuments(): Document[] {
@@ -52,6 +68,7 @@ export class DocumentService {
     this.documents.push(doc);
     const documentsListClone = this.documents.slice();
     this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments();
   }
 
   updateDocument(originalDocument: Document, newDocument: Document) {
@@ -66,6 +83,7 @@ export class DocumentService {
     this.documents[pos] = newDocument;
     const documentsListClone = this.documents.slice();
     this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments();
   }
 
   deleteDocument(document: Document) {
@@ -79,7 +97,19 @@ export class DocumentService {
     this.documents.splice(pos, 1);
     const documentsListClone = this.documents.slice();
     this.documentListChangedEvent.next(documentsListClone);
+    this.storeDocuments();
+  }
+
+  storeDocuments() {
+    const documents = JSON.stringify(this.documents);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http.put('https://your-firebase-url.firebaseio.com/documents.json', documents, { headers: headers })
+      .subscribe(() => {
+        this.documentListChangedEvent.next(this.documents.slice());
+      });
   }
 }
  
+
+
 

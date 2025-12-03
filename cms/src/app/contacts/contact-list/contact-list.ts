@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class ContactList implements OnInit {
   contacts: Contact[] = [];
+  term: string = '';
   private subscription: Subscription = new Subscription();
 
   constructor(private contactService: ContactService) {}
@@ -35,5 +36,9 @@ export class ContactList implements OnInit {
     const newContact = new Contact(id, 'New Contact', 'you@example.com', '', 'assets/images/default.png', null);
     this.contactService.addContact(newContact);
     this.contactService.contactSelectedEvent.next(newContact);
+  }
+
+  search(value: string) {
+    this.term = value;
   }
 }
